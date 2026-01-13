@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NFL Playoffs - Ronda Divisional 🏈</title>
+    <title>Quiniela NFL 🏈</title>
     <style>
         :root { --nfl-blue: #013369; --nfl-red: #D50A0A; --bg: #14181c; --card: #2c3440; --gold: #FFD700; --silver: #C0C0C0; --bronze: #CD7F32; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: white; margin: 0; padding: 20px; }
@@ -37,18 +37,18 @@
 <body>
 
 <div class="container">
-    <h2 style="text-align:center; margin:0;">🏆 TABLERO DE LÍDERES</h2>
+    <h2 style="text-align:center; margin:0;">🏆 TABLA DE POSICIONES</h2>
     <div class="podium">
         <div class="rank second">🥈<br>Mara<br>5 pts</div>
         <div class="rank first">🥇<br>Marco<br>6 pts</div>
         <div class="rank third">🥉<br>TINO<br>5 pts</div>
     </div>
 
-    <h1>🏈 Quiniela Ronda Divisional</h1>
-    <h3 style="text-align:center; color:#9ab;">Vota y los resultados se subirán solos</h3>
+    <h1>🏈 Ronda Divisional</h1>
+    <h3 style="text-align:center; color:#9ab;">Escribe tu nombre y sube tus votos</h3>
 
     <div id="voto-view">
-        <input type="text" id="nombre-usuario" placeholder="Tu nombre completo">
+        <input type="text" id="nombre-usuario" placeholder="Tu nombre va aquí">
         <div id="contenedor-partidos"></div>
         <button class="btn-main" id="btn-enviar" onclick="enviarDatos()">SUBIR PRONÓSTICOS</button>
         <div id="msg-carga" class="loading">Enviando a la base de datos...</div>
@@ -56,7 +56,7 @@
 
     <hr style="margin:40px 0; border:0; border-top:1px solid #456;">
 
-    <h2>📊 Tabla General (Acumulada)</h2>
+    <h2>📊 Tabla General</h2>
     <div class="tabla-scroll">
         <table id="matriz-resultados">
             <thead>
@@ -178,3 +178,4 @@
 </script>
 </body>
 </html>
+
