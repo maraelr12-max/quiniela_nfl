@@ -3,71 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiniela NFL 🏈</title>
+    <title>NFL - Campeonato de Conferencia 🏈</title>
     <style>
-        :root { --nfl-blue: #013369; --nfl-red: #D50A0A; --bg: #14181c; --card: #2c3440; --gold: #FFD700; --silver: #C0C0C0; --bronze: #CD7F32; }
+        :root { --nfl-blue: #013369; --nfl-red: #D50A0A; --bg: #14181c; --card: #2c3440; --gold: #FFD700; --silver: #C0C0C0; --bronze: #CD7F32; --green: #28a745; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: white; margin: 0; padding: 20px; }
-        .container { max-width: 900px; margin: 0 auto; background: var(--card); padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card); padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         
-        /* Podio */
-        .podium { display: flex; justify-content: center; align-items: flex-end; gap: 10px; margin: 30px 0; height: 150px; }
-        .rank { text-align: center; width: 80px; border-radius: 10px 10px 0 0; padding: 10px; font-weight: bold; color: #000; }
-        .first { background: var(--gold); height: 120px; order: 2; }
-        .second { background: var(--silver); height: 90px; order: 1; }
-        .third { background: var(--bronze); height: 70px; order: 3; }
+        /* Podio Visual */
+        .podium { display: flex; justify-content: center; align-items: flex-end; gap: 10px; margin: 20px 0 40px 0; height: 120px; }
+        .rank { text-align: center; width: 90px; border-radius: 10px 10px 0 0; padding: 10px; font-weight: bold; color: #000; font-size: 0.8rem; }
+        .first { background: var(--gold); height: 110px; order: 2; }
+        .second { background: var(--silver); height: 85px; order: 1; }
+        .third { background: var(--bronze); height: 65px; order: 3; }
 
-        /* Partidos */
-        .partido { display: flex; align-items: center; justify-content: space-around; background: #1c232e; margin: 15px 0; padding: 15px; border-radius: 12px; border: 1px solid #456; }
-        .equipo { cursor: pointer; display: flex; flex-direction: column; align-items: center; width: 40%; padding: 10px; border-radius: 10px; }
-        .equipo img { width: 55px; height: 55px; object-fit: contain; }
-        .seleccionado { background: var(--nfl-blue) !important; border: 2px solid white; }
-        
-        /* Tabla */
-        .tabla-scroll { overflow-x: auto; margin-top: 30px; }
+        /* Partidos de Conferencia */
+        .partido { display: flex; align-items: center; justify-content: space-around; background: #1c232e; margin: 15px 0; padding: 20px; border-radius: 12px; border: 1px solid #456; }
+        .equipo { cursor: pointer; display: flex; flex-direction: column; align-items: center; width: 45%; transition: 0.3s; padding: 10px; border-radius: 10px; }
+        .equipo img { width: 70px; height: 70px; object-fit: contain; margin-bottom: 10px; }
+        .equipo:hover { background: #343d4b; }
+        .seleccionado { background: var(--nfl-blue) !important; border: 2px solid white; scale: 1.05; }
+        .vs-box { text-align: center; }
+        .vs { font-weight: 900; color: var(--nfl-red); font-style: italic; font-size: 1.2rem; }
+        .fecha { font-size: 0.7rem; color: #9ab; margin-top: 5px; }
+
+        /* Tabla de Resultados */
+        .tabla-scroll { overflow-x: auto; margin-top: 30px; border-radius: 8px; }
         table { width: 100%; border-collapse: collapse; background: #1c232e; font-size: 0.85rem; }
-        th, td { border: 1px solid #456; padding: 10px; text-align: center; }
-        .acierto { background: #28a745 !important; }
-        .fallo { background: #dc3545 !important; }
+        th, td { border: 1px solid #456; padding: 12px; text-align: center; }
+        th { background: var(--nfl-blue); text-transform: uppercase; font-size: 0.75rem; }
+        .acierto { background: var(--green) !important; color: white; font-weight: bold; }
+        .fallo { background: #dc3545 !important; color: white; }
+        .pendiente { background: #444; color: #9ab; }
 
-        input[type="text"] { width: 100%; padding: 15px; background: #14181c; border: 1px solid #456; color: white; border-radius: 8px; margin-bottom: 20px; box-sizing: border-box; }
-        .btn-main { width: 100%; background: var(--nfl-red); color: white; border: none; padding: 18px; border-radius: 8px; font-weight: bold; cursor: pointer; text-transform: uppercase; }
-        .loading { display: none; color: #ff8000; font-weight: bold; margin-top: 10px; text-align: center; }
+        input[type="text"] { width: 100%; padding: 15px; background: #14181c; border: 1px solid #456; color: white; border-radius: 8px; margin-bottom: 20px; box-sizing: border-box; font-size: 1rem; }
+        .btn-main { width: 100%; background: var(--nfl-red); color: white; border: none; padding: 18px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 1.1rem; text-transform: uppercase; }
+        .btn-main:disabled { background: #666; cursor: not-allowed; }
+        .loading { display: none; text-align: center; color: #ff8000; font-weight: bold; margin-top: 15px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2 style="text-align:center; margin:0;">🏆 TABLA DE POSICIONES</h2>
+    <h3 style="text-align:center; margin-bottom: 10px; color: #9ab;">🏆 LÍDERES ACTUALES</h3>
     <div class="podium">
-        <div class="rank second">🥈<br>Tino<br>7 pts</div>
-        <div class="rank first">🥇<br>Marco<br>7 pts</div>
-        <div class="rank third">🥉<br>Mara/Esthela<br>6 pts</div>
+        <div class="rank second">🥈<br>TINO<br>8 pts</div>
+        <div class="rank first">🥇<br>Marco<br>9 pts</div>
+        <div class="rank third">🥉<br>Mara<br>8 pts</div>
     </div>
 
-    <h1>🏈 Ronda Divisional</h1>
-    <h3 style="text-align:center; color:#9ab;">Escribe tu nombre y sube tus votos</h3>
-
+    <h1 style="text-align:center;">🏈 CAMPEONATO DE CONFERENCIA</h1>
+    <p style="text-align:center; color: #9ab; font-size: 0.9rem;">Selecciona a tus 2 favoritos para llegar al Super Bowl</p>
+    
     <div id="voto-view">
-        <input type="text" id="nombre-usuario" placeholder="Tu nombre va aquí">
+        <input type="text" id="nombre-usuario" placeholder="Escribe tu nombre (tal cual lo usaste antes)">
+        
         <div id="contenedor-partidos"></div>
+        
         <button class="btn-main" id="btn-enviar" onclick="enviarDatos()">SUBIR PRONÓSTICOS</button>
-        <div id="msg-carga" class="loading">Enviando a la base de datos...</div>
+        <div id="msg-carga" class="loading">⏳ Subiendo tus votos... espera un momento.</div>
     </div>
 
-    <hr style="margin:40px 0; border:0; border-top:1px solid #456;">
+    <hr style="margin: 40px 0; border: 0; border-top: 1px solid #456;">
 
-    <h2>📊 Tabla General</h2>
+    <h2>📊 Tabla de Posiciones General</h2>
     <div class="tabla-scroll">
         <table id="matriz-resultados">
             <thead>
                 <tr>
                     <th>Nombre</th>
-                    <th>SEA@SF</th>
-                    <th>DEN@BUF</th>
-                    <th>TEX@NE</th>
-                    <th>CHI@LAR</th>
+                    <th>BRONCOS @ PATS</th>
+                    <th>SEAHAWKS @ RAMS</th>
                     <th>PTS Ronda</th>
-                    <th>TOTAL</th>
+                    <th>TOTAL ACUM.</th>
                 </tr>
             </thead>
             <tbody id="body-matriz"></tbody>
@@ -79,29 +86,25 @@
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzgct7Iw7dpJfdGMgQymRXIUkv8BhUZxAHdx8SthRewbra5_nLb-f5OcKmsp0gNmsQs/exec";
     const SHEET_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTtskqdvjMDVBAPqHzOt9RtjMEjUrlYd3YpnOWC7o09G3ezFe15hkhiKaPf6SnotgZYsI7vetYP-Eps/pub?output=csv";
 
+    // PUNTOS HISTÓRICOS (De Comodines + Divisional)
+    const puntosPrevios = { 
+        "Marco": 9, "TINO": 8, "Mara": 8, "Esthela": 8, "Marlongo": 4, "Mariana": 0 
+    };
+
     const logos = {
-        "Seahawks": "https://a.espncdn.com/i/teamlogos/nfl/500/sea.png",
-        "49ers": "https://a.espncdn.com/i/teamlogos/nfl/500/sf.png",
         "Broncos": "https://a.espncdn.com/i/teamlogos/nfl/500/den.png",
-        "Bills": "https://a.espncdn.com/i/teamlogos/nfl/500/buf.png",
         "Patriots": "https://a.espncdn.com/i/teamlogos/nfl/500/ne.png",
-        "Texans": "https://a.espncdn.com/i/teamlogos/nfl/500/hou.png",
-        "Bears": "https://a.espncdn.com/i/teamlogos/nfl/500/chi.png",
+        "Seahawks": "https://a.espncdn.com/i/teamlogos/nfl/500/sea.png",
         "Rams": "https://a.espncdn.com/i/teamlogos/nfl/500/lar.png"
     };
 
     const partidos = [
-        { id: "p1", local: "Seahawks", visita: "49ers" },
-        { id: "p2", local: "Broncos", visita: "Bills" },
-        { id: "p3", local: "Texans", visita: "Patriots" },
-        { id: "p4", local: "Bears", visita: "Rams" }
+        { id: "p1", local: "Broncos", visita: "Patriots", info: "Dom 25/1 - 2:00 PM" },
+        { id: "p2", local: "Seahawks", visita: "Rams", info: "Dom 25/1 - 5:30 PM" }
     ];
 
-    // PUNTOS RONDA ANTERIOR (Para el total acumulado)
-    const puntosPrevios = { "Marco":6, "Mara":5, "TINO":5, "Marlongo":3, "Esthela":4, "Mariana":0 };
-
-    // RESULTADOS OFICIALES (Actualiza aquí conforme ganen)
-    const oficiales = ["Seahawks", "Broncos", "Patriots", "Rams"]; 
+    // --- ACTUALIZA ESTO EL DOMINGO ---
+    const oficiales = ["", ""]; 
 
     let misVotos = {};
     const contenedor = document.getElementById('contenedor-partidos');
@@ -109,9 +112,16 @@
     partidos.forEach(p => {
         contenedor.innerHTML += `
             <div class="partido">
-                <div class="equipo" onclick="votar('${p.id}', '${p.local}', this)"><img src="${logos[p.local]}"><span>${p.local}</span></div>
-                <div class="vs">VS</div>
-                <div class="equipo" onclick="votar('${p.id}', '${p.visita}', this)"><img src="${logos[p.visita]}"><span>${p.visita}</span></div>
+                <div class="equipo" onclick="votar('${p.id}', '${p.local}', this)">
+                    <img src="${logos[p.local]}"><span>${p.local}</span>
+                </div>
+                <div class="vs-box">
+                    <div class="vs">VS</div>
+                    <div class="fecha">${p.info}</div>
+                </div>
+                <div class="equipo" onclick="votar('${p.id}', '${p.visita}', this)">
+                    <img src="${logos[p.visita]}"><span>${p.visita}</span>
+                </div>
             </div>`;
     });
 
@@ -123,59 +133,57 @@
 
     async function enviarDatos() {
         const nombre = document.getElementById('nombre-usuario').value.trim();
-        if (!nombre || Object.keys(misVotos).length < 4) return alert("Faltan datos");
+        if (!nombre || Object.keys(misVotos).length < 2) return alert("Por favor escribe tu nombre y elige a tus 2 ganadores.");
 
         document.getElementById('btn-enviar').disabled = true;
         document.getElementById('msg-carga').style.display = "block";
 
-        const payload = { nombre, ...misVotos };
+        const payload = { nombre, p1: misVotos.p1, p2: misVotos.p2, p3: "", p4: "", p5: "", p6: "" };
 
         try {
-            await fetch(SCRIPT_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                body: JSON.stringify(payload)
-            });
-            alert("¡Pronóstico subido con éxito! Recarga la página en 1 minuto para ver tu nombre en la tabla.");
+            await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
+            alert("¡Pronóstico de Campeonato subido! Recarga en 1 minuto para ver tu actualización.");
             location.reload();
         } catch (e) {
-            alert("Error al subir. Intenta de nuevo.");
+            alert("Hubo un error al conectar. Intenta de nuevo.");
             document.getElementById('btn-enviar').disabled = false;
         }
     }
 
     async function cargarTabla() {
-        const res = await fetch(SHEET_CSV);
-        const data = await res.text();
-        const filas = data.split('\n').slice(1);
-        const body = document.getElementById('body-matriz');
-        body.innerHTML = "";
+        try {
+            const res = await fetch(SHEET_CSV + "&cachebuster=" + Date.now());
+            const data = await res.text();
+            const filas = data.split('\n').slice(1);
+            const body = document.getElementById('body-matriz');
+            body.innerHTML = "";
 
-        filas.forEach(row => {
-            const c = row.split(',');
-            if (c.length < 5) return;
-            const nombre = c[1];
-            const votos = [c[2], c[3], c[4], c[5]];
-            let ptsRonda = 0;
-            let filaHTML = `<tr><td><strong>${nombre}</strong></td>`;
+            filas.forEach(row => {
+                const c = row.split(',');
+                if (c.length < 4) return;
+                
+                const nombre = c[1].trim();
+                const votos = [c[2].trim(), c[3].trim()];
+                let ptsRonda = 0;
+                let filaHTML = `<tr><td><strong>${nombre}</strong></td>`;
 
-            votos.forEach((v, i) => {
-                let clase = "";
-                if (oficiales[i] !== "") {
-                    clase = (v.trim() === oficiales[i]) ? "acierto" : "fallo";
-                    if (clase === "acierto") ptsRonda++;
-                }
-                filaHTML += `<td class="${clase}">${v}</td>`;
+                votos.forEach((v, i) => {
+                    let clase = "pendiente";
+                    if (oficiales[i] !== "") {
+                        clase = (v === oficiales[i]) ? "acierto" : "fallo";
+                        if (clase === "acierto") ptsRonda++;
+                    }
+                    filaHTML += `<td class="${clase}">${v}</td>`;
+                });
+
+                const prev = puntosPrevios[nombre] || 0;
+                filaHTML += `<td>${ptsRonda}</td><td><strong>${ptsRonda + prev}</strong></td></tr>`;
+                body.innerHTML += filaHTML;
             });
-
-            const prev = puntosPrevios[nombre] || 0;
-            filaHTML += `<td>${ptsRonda}</td><td><strong>${ptsRonda + prev}</strong></td></tr>`;
-            body.innerHTML += filaHTML;
-        });
+        } catch (e) { console.error("Error cargando tabla"); }
     }
 
     cargarTabla();
 </script>
 </body>
 </html>
-
